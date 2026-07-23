@@ -235,7 +235,7 @@ export default function App() {
       )}
 
       {/* Main Single Page View Container */}
-      <div className="relative z-10 w-full min-h-[100dvh] flex flex-col justify-between overflow-hidden">
+      <div className="relative z-10 w-full h-[100dvh] max-h-[100dvh] flex flex-col justify-between overflow-hidden pt-[calc(env(safe-area-inset-top,0px)+1.5rem)] pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)]">
         {/* Error Alert Display */}
         {errorMsg && (
           <div className="absolute top-20 left-6 right-6 z-50 flex justify-center pointer-events-none">
