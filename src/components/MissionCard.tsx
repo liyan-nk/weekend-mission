@@ -29,137 +29,137 @@ export const MissionCard: FC<MissionCardProps> = ({
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[90vh] px-6 text-center select-none">
-      {/* Top Status Header for Assigned Event Cards */}
+      {/* Top Status Header for Locked Missions */}
       {isAssigned && (
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8 flex flex-col items-center space-y-1"
+          className="mb-8 flex flex-col items-center space-y-1 select-none"
         >
-          <span className="text-[9px] uppercase tracking-[0.25em] text-purple-400 font-mono text-glow-violet font-semibold">
-            ACTIVE CHALLENGE
+          <span className="text-[9px] uppercase tracking-[0.25em] text-purple-600 bg-purple-100 border-brutal-sm px-3 py-1 rounded-full font-mono font-extrabold shadow-brutal-sm">
+            ACTIVE CONTRACT
           </span>
-          <p className="text-[11px] text-zinc-500 font-light leading-relaxed max-w-[200px]">
-            Good luck. Complete it before the weekend ends.
+          <p className="text-[11px] text-zinc-650 font-semibold leading-relaxed max-w-[200px] mt-1.5">
+            Complete the objective before the weekend ends.
           </p>
         </motion.div>
       )}
 
-      {/* Collectible Card Container */}
+      {/* Collectible Trading Card Container */}
       <div 
         onClick={handleReveal}
         className="w-full max-w-[310px] sm:max-w-[330px] aspect-[4/5] [perspective:1000px] cursor-pointer"
       >
         <motion.div
           className="w-full h-full relative [transform-style:preserve-3d] select-none"
-          animate={{ rotateY: revealed ? 180 : 0 }}
+          animate={{ rotateY: revealed ? 180 : 0, scale: revealed ? [1, 1.04, 1] : 1 }}
           transition={{ duration: 0.65, ease: [0.25, 1, 0.5, 1] }}
         >
-          {/* CARD BACK (Golden Ticket/Invitation Theme) */}
+          {/* CARD BACK (Collectible Yellow Trading Ticket) */}
           <div 
-            className="absolute inset-0 w-full h-full backface-hidden glass-panel-gold rounded-3xl p-8 flex flex-col justify-center items-center"
+            className="absolute inset-0 w-full h-full backface-hidden bg-[#FBBF24] border-brutal shadow-brutal-lg rounded-[2rem] p-8 flex flex-col justify-between items-center"
             style={{ 
               backfaceVisibility: 'hidden', 
               WebkitBackfaceVisibility: 'hidden',
               visibility: revealed ? 'hidden' : 'visible'
             }}
           >
-            <div className="w-full flex flex-col items-center space-y-8 py-4">
-              {/* Header */}
-              <div className="text-[8px] font-mono text-gradient-gold tracking-[0.3em] uppercase font-bold text-glow-gold select-none">
-                UGC WEEKEND MISSION
-              </div>
-
-              {/* Gold Divider Line */}
-              <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-amber-500/80 to-transparent" />
-
-              {/* Suspense body */}
-              <div className="flex flex-col items-center space-y-3 select-none">
-                <span className="text-[10px] font-mono text-zinc-400 tracking-[0.2em] uppercase text-glow">
-                  INVITATION SEAL
-                </span>
-                <span className="text-amber-500/80 tracking-[0.3em] font-light text-lg">
-                  •••• •••• ••••
-                </span>
-              </div>
-
-              {/* Gold Divider Line */}
-              <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-amber-500/80 to-transparent" />
-
-              {/* Bottom Call to Action */}
-              <motion.div
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                className="text-[9px] font-mono text-gradient-gold tracking-[0.2em] uppercase font-semibold text-glow-gold select-none"
-              >
-                TAP TO CLAIM
-              </motion.div>
+            {/* Header */}
+            <div className="text-[8px] font-mono text-black tracking-[0.3em] uppercase font-black select-none">
+              UGC WEEKEND MISSION
             </div>
+
+            {/* Flat Divider */}
+            <div className="w-12 h-1 bg-black rounded-full" />
+
+            {/* Suspense body */}
+            <div className="flex flex-col items-center space-y-3 select-none relative">
+              {/* Sticker element in background */}
+              <div className="absolute -top-6 text-black/5 text-7xl font-black select-none pointer-events-none">★</div>
+              <span className="text-[10px] font-mono text-black tracking-[0.2em] uppercase font-black">
+                INVITATION SEAL
+              </span>
+              <span className="bg-black text-white px-3 py-1 text-[10px] tracking-widest font-black uppercase rounded-lg border-brutal-sm shadow-brutal-sm mt-3">
+                CLAIM ACCESS
+              </span>
+            </div>
+
+            {/* Flat Divider */}
+            <div className="w-12 h-1 bg-black rounded-full" />
+
+            {/* Bottom Call to Action */}
+            <motion.div
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+              className="text-[9px] font-mono text-black tracking-[0.2em] uppercase font-black select-none"
+            >
+              TAP TO REVEAL
+            </motion.div>
           </div>
 
-          {/* CARD FRONT (Revealed Collectible Invitation Theme) */}
+          {/* CARD FRONT (Collectible Collectible Invitation Card) */}
           <div 
-            className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] glass-panel-violet rounded-3xl p-8 flex flex-col justify-center items-center"
+            className="absolute inset-0 w-full h-full backface-hidden [transform:rotateY(180deg)] bg-white border-brutal shadow-brutal-lg rounded-[2rem] p-8 flex flex-col justify-between items-center"
             style={{ 
               backfaceVisibility: 'hidden', 
               WebkitBackfaceVisibility: 'hidden',
               visibility: revealed ? 'visible' : 'hidden'
             }}
           >
-            <div className="w-full flex flex-col items-center space-y-6 py-2">
-              {/* Top Header Group */}
-              <div className="flex flex-col items-center space-y-1 font-mono select-none">
-                <span className="text-[8px] text-zinc-500 tracking-[0.25em] uppercase">COLLECTIBLE</span>
-                <span className="text-sm text-purple-400 tracking-[0.15em] font-medium mt-0.5 text-glow-violet">{mission.code}</span>
+            {/* Top Header Group */}
+            <div className="flex flex-col items-center space-y-2 font-mono select-none w-full">
+              <span className="text-[8px] text-zinc-500 tracking-[0.25em] uppercase font-bold">WEEKEND INVITATION</span>
+              
+              {/* Yellow Square Badge */}
+              <span className="bg-[#FBBF24] text-black border-brutal-sm px-3.5 py-1 text-xs tracking-widest font-mono font-black uppercase rounded-xl shadow-brutal-sm">
+                {mission.code}
+              </span>
+            </div>
+
+            {/* Flat Divider */}
+            <div className="w-12 h-[3px] bg-black rounded-full" />
+
+            {/* Center Mission Content Group */}
+            <div className="flex flex-col items-center space-y-3 px-1 text-center select-none w-full">
+              <h3 className="text-2xl sm:text-3xl font-black text-black leading-none tracking-tight uppercase max-w-[240px]">
+                {mission.title}
+              </h3>
+              <p className="text-xs text-zinc-700 font-medium leading-relaxed max-w-[210px] mt-1.5 font-sans">
+                {mission.description}
+              </p>
+            </div>
+
+            {/* Flat Divider */}
+            <div className="w-12 h-[3px] bg-black rounded-full" />
+
+            {/* Bottom Metadata & Action Group */}
+            <div className="w-full flex flex-col items-center space-y-6">
+              {/* Deadline (Electric Violet Badge Accent) */}
+              <div className="flex flex-col items-center select-none font-mono">
+                <span className="text-[8px] text-zinc-400 tracking-[0.2em] uppercase font-bold">DEADLINE</span>
+                <span className="text-[10px] text-purple-600 border-brutal-sm bg-purple-50 px-3 py-0.5 rounded-full shadow-brutal-sm font-extrabold tracking-wide mt-1.5">
+                  SUNDAY • 11:59 PM
+                </span>
               </div>
 
-              {/* Violet Divider */}
-              <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-purple-500/60 to-transparent" />
-
-              {/* Center Mission Content Group */}
-              <div className="flex flex-col items-center space-y-3 px-2 text-center select-none">
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight tracking-tight text-glow max-w-[240px]">
-                  {mission.title}
-                </h3>
-                <p className="text-[11px] sm:text-xs text-zinc-400 font-light leading-relaxed max-w-[210px] mt-1">
-                  {mission.description}
-                </p>
-              </div>
-
-              {/* Violet Divider */}
-              <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-purple-500/60 to-transparent" />
-
-              {/* Bottom Metadata & Action Group */}
-              <div className="w-full flex flex-col items-center space-y-6">
-                {/* Deadline */}
-                <div className="flex flex-col items-center space-y-1 font-mono select-none">
-                  <span className="text-[8px] text-zinc-500 tracking-[0.2em] uppercase font-mono">DEADLINE</span>
-                  <span className="text-[10px] text-zinc-300 font-light font-mono tracking-wide">SUNDAY • 11:59 PM</span>
-                </div>
-
-                {/* Action Button: Prevent click propagation to card flip handler */}
-                <div className="w-full" onClick={(e) => e.stopPropagation()}>
-                  {!isAssigned ? (
-                    <motion.button
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      onClick={onAccept}
-                      className="w-full py-3.5 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-extrabold text-[10px] tracking-[0.25em] uppercase rounded-full shadow-[0_0_20px_rgba(245,158,11,0.15)] transition duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-                    >
-                      Accept Mission
-                    </motion.button>
-                  ) : (
-                    <motion.button
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      onClick={onComplete}
-                      className="w-full py-3.5 bg-zinc-950 border border-purple-900/60 text-purple-300 hover:bg-purple-950/20 hover:text-purple-200 hover:border-purple-500/80 font-bold text-[10px] tracking-[0.25em] uppercase rounded-full transition duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
-                    >
-                      Complete Mission
-                    </motion.button>
-                  )}
-                </div>
+              {/* Action Button: Prevent click propagation to card flip handler */}
+              <div className="w-full" onClick={(e) => e.stopPropagation()}>
+                {!isAssigned ? (
+                  <button
+                    onClick={onAccept}
+                    className="w-full py-3.5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white border-brutal rounded-full shadow-brutal-md hover:shadow-brutal-lg transition duration-200 cursor-pointer font-extrabold text-[10px] tracking-[0.25em] uppercase focus:outline-none btn-brutal-press select-none"
+                  >
+                    Accept Mission
+                  </button>
+                ) : (
+                  <button
+                    onClick={onComplete}
+                    className="w-full py-3.5 bg-[#FF6B35] hover:bg-[#ff7b4b] text-black border-brutal rounded-full shadow-brutal-md hover:shadow-brutal-lg transition duration-200 cursor-pointer font-extrabold text-[10px] tracking-[0.25em] uppercase focus:outline-none btn-brutal-press select-none"
+                  >
+                    Complete Mission
+                  </button>
+                )}
               </div>
             </div>
           </div>
