@@ -64,12 +64,12 @@ export const CinematicGenerator: FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[90vh] px-6 text-center select-none">
+    <div className="flex-1 flex flex-col justify-center items-center w-full px-6 py-4 text-center select-none max-h-[80vh] my-auto">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-[310px] sm:max-w-[330px] aspect-[4/5] p-8 flex flex-col justify-between relative overflow-hidden bg-white border-brutal shadow-brutal-lg rounded-[2rem]"
+        className="w-[88%] max-w-[310px] sm:max-w-[330px] max-h-[62dvh] aspect-[4/5] p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden bg-white border-brutal shadow-brutal-lg rounded-[2rem]"
       >
         {/* Dynamic scanning laser line (Amber Ticket Cutter style) */}
         <motion.div
@@ -85,39 +85,39 @@ export const CinematicGenerator: FC = () => {
         </div>
 
         {/* Center printing cipher area */}
-        <div className="flex-1 flex flex-col items-center justify-center space-y-4">
+        <div className="flex-1 flex flex-col items-center justify-center space-y-3 sm:space-y-4">
           <div className="text-[8px] font-mono text-zinc-400 tracking-[0.25em] uppercase font-bold select-none opacity-60">
             [ INITIALIZING TICKET ]
           </div>
           
-          {/* Shuffling code - Prominent, bold and black */}
+          {/* Shuffling code */}
           <motion.div
             key={currentCode}
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
-            className="text-4xl font-mono tracking-widest font-black text-black text-glow"
+            className="text-3xl sm:text-4xl font-mono tracking-widest font-black text-black"
           >
             {currentCode}
           </motion.div>
 
           {/* Title Scrambler */}
-          <div className="h-10 flex items-center justify-center px-4">
-            <span className="text-[10px] font-mono text-zinc-500 tracking-widest text-center select-none uppercase font-semibold">
+          <div className="h-8 flex items-center justify-center px-4">
+            <span className="text-[9px] sm:text-[10px] font-mono text-zinc-500 tracking-widest text-center select-none uppercase font-semibold">
               {scrambledTitle}
             </span>
           </div>
         </div>
 
         {/* Bottom Loading Progress Details */}
-        <div className="space-y-4 font-mono select-none">
+        <div className="space-y-3 sm:space-y-4 font-mono select-none">
           {/* Status Label */}
-          <div className="flex justify-between items-center text-[9px] tracking-widest text-black font-bold">
-            <span className="truncate max-w-[75%] uppercase">{statusText}</span>
+          <div className="flex justify-between items-center text-[8px] sm:text-[9px] tracking-widest text-black font-bold">
+            <span className="truncate max-w-[70%] uppercase">{statusText}</span>
             <span className="bg-black text-white px-2 py-0.5 rounded text-[8px] font-black">{progress}%</span>
           </div>
 
           {/* Chunky Brutalist Progress Bar */}
-          <div className="w-full h-4 bg-zinc-150 border-brutal-sm rounded-full overflow-hidden relative shadow-brutal-sm">
+          <div className="w-full h-3.5 sm:h-4 bg-zinc-150 border-brutal-sm rounded-full overflow-hidden relative shadow-brutal-sm">
             <motion.div
               className="absolute left-0 top-0 bottom-0 bg-[#FF6B35] border-r-2 border-black"
               style={{ width: `${progress}%` }}
