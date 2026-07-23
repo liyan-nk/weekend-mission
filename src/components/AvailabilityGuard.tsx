@@ -54,7 +54,7 @@ export const AvailabilityGuard: FC<AvailabilityGuardProps> = ({ status, children
     const t = formatCountdown(status.countdownMs);
 
     return (
-      <div className="relative min-h-[100dvh] flex flex-col justify-between p-6 overflow-hidden select-none">
+      <div className="relative h-[100dvh] max-h-[100dvh] flex flex-col justify-between p-6 overflow-hidden select-none pt-[calc(env(safe-area-inset-top,0px)+1.5rem)] pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)]">
         {/* Background Dot Matrix */}
         <div className="absolute inset-0 -z-20 bg-dot-matrix pointer-events-none select-none" />
         
@@ -83,31 +83,31 @@ export const AvailabilityGuard: FC<AvailabilityGuardProps> = ({ status, children
         </div>
 
         {/* Closed Content Event Announcement Banner */}
-        <main className="flex-1 flex flex-col items-center justify-center text-center px-4 max-w-lg mx-auto z-10 select-none">
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-[-0.04em] uppercase leading-[0.85] text-black select-none">
+        <main className="flex-1 flex flex-col items-center justify-center text-center px-4 max-w-lg mx-auto z-10 select-none max-h-[75vh] my-auto">
+          <h1 className="text-[13vw] sm:text-7xl md:text-8xl font-black tracking-[-0.04em] uppercase leading-[0.85] text-black select-none">
             WEEKEND<br />
             <span className="text-[#FF6B35]">MISSION</span>
           </h1>
-          <p className="mt-8 text-zinc-550 font-mono text-[10px] sm:text-xs tracking-[0.3em] uppercase mb-12 sm:mb-16 select-none font-bold opacity-90">
+          <p className="mt-6 text-zinc-555 font-mono text-[9px] sm:text-xs tracking-[0.3em] uppercase mb-10 sm:mb-14 select-none font-bold opacity-90">
             Returns this Saturday
           </p>
 
           {/* Live Countdown Grid - Chunky Outlined Yellow blocks */}
-          <div className="grid grid-cols-4 gap-3 md:gap-6 w-full max-w-sm mb-8" aria-live="polite">
-            <div className="flex flex-col items-center bg-[#FBBF24] border-brutal shadow-brutal-sm p-3 rounded-2xl aspect-square justify-center">
-              <span className="text-3xl sm:text-4xl md:text-5xl font-black font-mono text-black tracking-tight">{t.days}</span>
+          <div className="grid grid-cols-4 gap-2.5 sm:gap-4 w-full max-w-[290px] sm:max-w-sm mb-6" aria-live="polite">
+            <div className="flex flex-col items-center bg-[#FBBF24] border-brutal shadow-brutal-sm p-2 sm:p-3 rounded-2xl aspect-square justify-center">
+              <span className="text-2xl sm:text-3xl md:text-5xl font-black font-mono text-black tracking-tight">{t.days}</span>
               <span className="text-[8px] text-black font-mono tracking-[0.15em] uppercase font-bold mt-1">Days</span>
             </div>
-            <div className="flex flex-col items-center bg-[#FBBF24] border-brutal shadow-brutal-sm p-3 rounded-2xl aspect-square justify-center">
-              <span className="text-3xl sm:text-4xl md:text-5xl font-black font-mono text-black tracking-tight">{t.hours}</span>
+            <div className="flex flex-col items-center bg-[#FBBF24] border-brutal shadow-brutal-sm p-2 sm:p-3 rounded-2xl aspect-square justify-center">
+              <span className="text-2xl sm:text-3xl md:text-5xl font-black font-mono text-black tracking-tight">{t.hours}</span>
               <span className="text-[8px] text-black font-mono tracking-[0.15em] uppercase font-bold mt-1">Hours</span>
             </div>
-            <div className="flex flex-col items-center bg-[#FBBF24] border-brutal shadow-brutal-sm p-3 rounded-2xl aspect-square justify-center">
-              <span className="text-3xl sm:text-4xl md:text-5xl font-black font-mono text-black tracking-tight">{t.minutes}</span>
+            <div className="flex flex-col items-center bg-[#FBBF24] border-brutal shadow-brutal-sm p-2 sm:p-3 rounded-2xl aspect-square justify-center">
+              <span className="text-2xl sm:text-3xl md:text-5xl font-black font-mono text-black tracking-tight">{t.minutes}</span>
               <span className="text-[8px] text-black font-mono tracking-[0.15em] uppercase font-bold mt-1">Mins</span>
             </div>
-            <div className="flex flex-col items-center bg-[#FBBF24] border-brutal shadow-brutal-sm p-3 rounded-2xl aspect-square justify-center">
-              <span className="text-3xl sm:text-4xl md:text-5xl font-black font-mono text-black tracking-tight">{t.seconds}</span>
+            <div className="flex flex-col items-center bg-[#FBBF24] border-brutal shadow-brutal-sm p-2 sm:p-3 rounded-2xl aspect-square justify-center">
+              <span className="text-2xl sm:text-3xl md:text-5xl font-black font-mono text-black tracking-tight">{t.seconds}</span>
               <span className="text-[8px] text-black font-mono tracking-[0.15em] uppercase font-bold mt-1">Secs</span>
             </div>
           </div>
