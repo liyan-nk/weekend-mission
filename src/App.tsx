@@ -31,7 +31,6 @@ export default function App() {
   const [displayName, setDisplayName] = useState<string>('');
   const [activeEntry, setActiveEntry] = useState<WeekendEntry | null>(null);
   const [currentMission, setCurrentMission] = useState<Mission | null>(null);
-  const [soundEnabled, setSoundEnabled] = useState(sound.getSoundEnabled());
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [isKeyboardActive, setIsKeyboardActive] = useState(false);
   
@@ -196,11 +195,6 @@ export default function App() {
     }
   };
 
-  const handleToggleSound = () => {
-    const nextState = !soundEnabled;
-    sound.toggleSound(nextState);
-    setSoundEnabled(nextState);
-  };
 
   const showPublicWall = 
     weekendStatus.isWeekend && 
