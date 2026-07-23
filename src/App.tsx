@@ -211,31 +211,32 @@ export default function App() {
 
   return (
     <AvailabilityGuard status={weekendStatus}>
-      {/* Poster Mesh Background and Noise */}
-      <div className="absolute inset-0 -z-20 bg-mesh-glow pointer-events-none select-none" />
-      <div className="absolute inset-0 -z-10 noise-overlay opacity-[0.9] pointer-events-none select-none" />
+      {/* Neo-Brutalist Dot Grid Background */}
+      <div className="absolute inset-0 -z-20 bg-dot-matrix pointer-events-none select-none" />
       
-      {/* Premium floating decorative card silhouettes */}
-      <div className="absolute inset-0 overflow-hidden -z-10 pointer-events-none select-none opacity-[0.02]">
-        <div className="absolute top-[-5%] left-[-8%] w-[260px] h-[360px] border border-white rounded-3xl transform rotate-12" />
-        <div className="absolute bottom-[-5%] right-[-8%] w-[260px] h-[360px] border border-white rounded-3xl transform -rotate-12" />
+      {/* Spare, abstract Neo-Brutalist stickers in background */}
+      <div className="absolute inset-0 overflow-hidden -z-10 pointer-events-none select-none opacity-[0.08]">
+        {/* Abstract Star shape top right */}
+        <svg className="absolute top-[12%] right-[8%] w-12 h-12 text-black fill-black rotate-12" viewBox="0 0 24 24">
+          <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/>
+        </svg>
+        {/* Abstract Arrow shape bottom left */}
+        <svg className="absolute bottom-[15%] left-[10%] w-14 h-14 text-black fill-black -rotate-45" viewBox="0 0 24 24">
+          <path d="M24 12l-12-9v5h-12v8h12v5z"/>
+        </svg>
+        {/* Cross symbol top left */}
+        <div className="absolute top-[20%] left-[12%] text-2xl font-bold text-black rotate-45 select-none">+</div>
+        {/* Circle symbol bottom right */}
+        <div className="absolute bottom-[25%] right-[12%] w-6 h-6 border-4 border-black rounded-full select-none" />
       </div>
 
-      {/* Global Brand & Sound Controls HUD */}
+      {/* Global Brand HUD */}
       {flowState !== 'CLOSED' && flowState !== 'INITIAL_LOADING' && (
-        <div className="absolute top-6 left-6 right-6 z-50 flex justify-between items-center select-none font-mono">
+        <div className="absolute top-8 left-8 z-50 select-none font-mono">
           <div className="flex flex-col text-left">
-            <span className="text-[9px] text-zinc-400 tracking-[0.25em] font-bold">WEEKEND MISSION</span>
-            <span className="text-[7px] text-zinc-600 uppercase tracking-[0.25em] mt-0.5">BY UGC COMMUNITY</span>
+            <span className="text-[9px] text-black tracking-[0.25em] font-extrabold">WEEKEND MISSION</span>
+            <span className="text-[7px] text-zinc-550 uppercase tracking-[0.25em] mt-0.5">BY UGC COMMUNITY</span>
           </div>
-          
-          <button
-            onClick={handleToggleSound}
-            className="px-2.5 py-1 text-[8px] tracking-[0.2em] uppercase transition bg-zinc-950/40 border border-zinc-900/80 rounded-full text-zinc-400 hover:text-zinc-200 hover:border-zinc-800 focus:outline-none cursor-pointer"
-            aria-label={soundEnabled ? 'Mute sound' : 'Unmute sound'}
-          >
-            {soundEnabled ? '🔊 ON' : '🔇 OFF'}
-          </button>
         </div>
       )}
 
@@ -245,9 +246,9 @@ export default function App() {
         {errorMsg && (
           <div className="absolute top-20 left-6 right-6 z-50 flex justify-center pointer-events-none">
             <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="px-4 py-2 bg-red-950/40 border border-red-900/50 rounded-full text-[9px] font-mono text-red-400 tracking-widest uppercase backdrop-blur-md"
+              initial={{ scale: 0.9, y: -10 }}
+              animate={{ scale: 1, y: 0 }}
+              className="px-4 py-2 bg-red-400 text-black border-brutal shadow-brutal-sm text-[10px] font-mono tracking-widest uppercase font-bold"
             >
               {errorMsg}
             </motion.div>
