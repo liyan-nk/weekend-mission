@@ -21,34 +21,34 @@ export const CompletedState: FC<CompletedStateProps> = ({
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="w-full max-w-sm flex flex-col items-center space-y-8"
       >
-        {/* Glow animated emerald check badge */}
+        {/* Solid green check badge with thick black borders and flat offset shadow */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5, rotate: -15 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ delay: 0.2, duration: 0.6, type: 'spring' }}
-          className="w-16 h-16 rounded-full flex items-center justify-center glass-panel-emerald"
+          className="w-16 h-16 rounded-full bg-[#10B981] border-brutal shadow-brutal-md flex items-center justify-center select-none"
         >
-          <Check className="text-emerald-400 w-6 h-6 text-glow-emerald" strokeWidth={2.5} />
+          <Check className="text-white w-7 h-7" strokeWidth={3} />
         </motion.div>
 
         {/* Text Details */}
         <div className="space-y-4">
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.02em] uppercase leading-tight select-none">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-[-0.04em] uppercase leading-[0.85] text-black select-none">
             MISSION<br />
-            <span className="text-gradient-emerald text-glow-emerald">COMPLETE</span>
+            <span className="text-[#10B981]">COMPLETE</span>
           </h1>
           
-          <div className="text-[10px] text-zinc-500 font-mono tracking-[0.25em] uppercase">
+          <div className="text-[10px] text-zinc-500 font-mono tracking-[0.25em] uppercase font-bold">
             {displayName} // {missionCode}
           </div>
           
-          <p className="text-xs text-zinc-300 font-medium max-w-[240px] mx-auto leading-relaxed border-t border-zinc-900/60 pt-4 font-sans select-none">
+          <p className="text-xs text-zinc-800 font-bold max-w-[240px] mx-auto leading-relaxed border-t-2 border-black pt-4 font-sans select-none">
             "{missionTitle}"
           </p>
         </div>
 
         {/* Closing Ritual Message */}
-        <div className="pt-10 text-zinc-500 font-mono text-[9px] tracking-[0.25em] uppercase space-y-1.5 opacity-80">
+        <div className="pt-10 text-zinc-650 font-mono text-[9px] sm:text-[10px] tracking-[0.25em] uppercase space-y-1.5 font-bold opacity-90">
           <p>Thanks for showing up.</p>
           <p>See you next weekend.</p>
         </div>
