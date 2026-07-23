@@ -28,14 +28,14 @@ export const PublicWall: FC<PublicWallProps> = ({ weekendKey }) => {
   if (!stats) return null;
 
   return (
-    <div className="mt-auto pt-12 pb-6 flex flex-col items-center justify-center text-center font-mono select-none">
-      <span className="text-[8px] text-zinc-700 uppercase tracking-[0.2em] mb-1">
-        This Weekend
+    <div className="mt-auto pt-16 pb-6 flex flex-col items-center justify-center text-center font-mono select-none">
+      <span className="text-[7px] sm:text-[8px] text-zinc-500 uppercase tracking-[0.25em] mb-1.5 opacity-80">
+        THIS WEEKEND
       </span>
-      <span className="text-[9px] text-zinc-500 uppercase tracking-widest flex items-center gap-1.5">
-        <span>{stats.assignedCount} Assigned</span>
+      <span className="text-[8px] sm:text-[9px] text-zinc-400 uppercase tracking-[0.2em] flex items-center gap-2">
+        <span>{stats.assignedCount} ASSIGNED</span>
         <span className="text-zinc-800">•</span>
-        <span className="text-white">{stats.completedCount} Completed</span>
+        <span className="text-purple-400 text-glow-violet font-semibold">{stats.completedCount} COMPLETED</span>
       </span>
     </div>
   );
