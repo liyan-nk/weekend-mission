@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
 @layer base {
@@ -9,12 +9,12 @@
   }
 
   body {
-    background-color: #08080f; /* Deep Indigo Base */
-    color: #f4f4f7; 
+    background-color: #fcfbf7; /* Premium Neutral Cream */
+    color: #0e0e10; /* Brutalist Bold Dark Charcoal */
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow: hidden; /* Prevent bounce scrolling */
+    overflow: hidden; /* Lock page bounce scrolling */
     
     /* Support iOS Safe Areas */
     padding-top: env(safe-area-inset-top, 0px);
@@ -27,83 +27,50 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
+    font-weight: 800;
   }
 }
 
-/* Backface safety for 3D card flips */
+/* 3D card flips backface safety */
 .backface-hidden {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
-/* Redesigned Premium Glows and Shadow Systems */
-.text-glow-violet {
-  text-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+/* Neo-Brutalist Border & Outlines */
+.border-brutal {
+  border: 3.5px solid #000000;
 }
 
-.text-glow-gold {
-  text-shadow: 0 0 35px rgba(251, 191, 36, 0.35);
+.border-brutal-sm {
+  border: 2px solid #000000;
 }
 
-.text-glow-emerald {
-  text-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+/* Neo-Brutalist Hard Offset Shadows */
+.shadow-brutal-lg {
+  box-shadow: 8px 8px 0px #000000;
 }
 
-/* Translucent gradient glass card panel */
-.glass-panel-violet {
-  background: linear-gradient(135deg, rgba(20, 20, 35, 0.7) 0%, rgba(13, 13, 23, 0.8) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.12);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(139, 92, 246, 0.03);
+.shadow-brutal-md {
+  box-shadow: 4px 4px 0px #000000;
 }
 
-.glass-panel-gold {
-  background: linear-gradient(135deg, rgba(25, 20, 15, 0.7) 0%, rgba(15, 12, 8, 0.8) 100%);
-  border: 1px solid rgba(251, 191, 36, 0.15);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 45px rgba(251, 191, 36, 0.04);
+.shadow-brutal-sm {
+  box-shadow: 2px 2px 0px #000000;
 }
 
-.glass-panel-emerald {
-  background: linear-gradient(135deg, rgba(15, 25, 20, 0.7) 0%, rgba(8, 15, 12, 0.8) 100%);
-  border: 1px solid rgba(16, 185, 129, 0.15);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 45px rgba(16, 185, 129, 0.04);
+/* Tactile button transition behaviors (compress shadow, translate) */
+.btn-brutal-press {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
-/* Premium text gradient configurations */
-.text-gradient-violet {
-  background: linear-gradient(135deg, #c084fc 0%, #818cf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.btn-brutal-press:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px #000000;
 }
 
-.text-gradient-gold {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-emerald {
-  background: linear-gradient(135deg, #34d399 0%, #059669 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Subtle event mesh animation background */
-.bg-mesh-glow {
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 45%),
-    radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.03) 0%, transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
-  background-size: 200% 200%;
-  animation: meshMovement 20s ease infinite;
-}
-
-@keyframes meshMovement {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Subtle digital noise grain texture */
-.noise-overlay {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0%25 0%25 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.015'/%3E%3C/svg%3E");
+/* Subtle Neo-Brutalist Dot Matrix Overlay */
+.bg-dot-matrix {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
 }
