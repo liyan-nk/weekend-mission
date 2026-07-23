@@ -211,28 +211,30 @@ export default function App() {
 
   return (
     <AvailabilityGuard status={weekendStatus}>
-      {/* Background Animated Blobs */}
-      <div className="absolute inset-0 overflow-hidden -z-10 pointer-events-none select-none">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-zinc-900/10 blur-[130px] animate-pulse" style={{ animationDuration: '8s' }} />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-zinc-950/20 blur-[110px] animate-pulse" style={{ animationDuration: '12s' }} />
+      {/* Poster Mesh Background and Noise */}
+      <div className="absolute inset-0 -z-20 bg-mesh-glow pointer-events-none select-none" />
+      <div className="absolute inset-0 -z-10 noise-overlay opacity-[0.9] pointer-events-none select-none" />
+      
+      {/* Premium floating decorative card silhouettes */}
+      <div className="absolute inset-0 overflow-hidden -z-10 pointer-events-none select-none opacity-[0.02]">
+        <div className="absolute top-[-5%] left-[-8%] w-[260px] h-[360px] border border-white rounded-3xl transform rotate-12" />
+        <div className="absolute bottom-[-5%] right-[-8%] w-[260px] h-[360px] border border-white rounded-3xl transform -rotate-12" />
       </div>
 
       {/* Global Brand & Sound Controls HUD */}
       {flowState !== 'CLOSED' && flowState !== 'INITIAL_LOADING' && (
-        <div className="absolute top-4 left-4 z-50 flex items-center gap-4">
-          {/* Minimal branding details */}
-          <div className="hidden sm:flex flex-col text-left select-none font-mono">
-            <span className="text-[8px] text-zinc-500 tracking-wider">WEEKEND MISSION</span>
-            <span className="text-[7px] text-zinc-700 uppercase tracking-widest mt-0.5">by ugc community</span>
+        <div className="absolute top-6 left-6 right-6 z-50 flex justify-between items-center select-none font-mono">
+          <div className="flex flex-col text-left">
+            <span className="text-[9px] text-zinc-400 tracking-[0.25em] font-bold">WEEKEND MISSION</span>
+            <span className="text-[7px] text-zinc-600 uppercase tracking-[0.25em] mt-0.5">BY UGC COMMUNITY</span>
           </div>
           
-          {/* Sound Toggle */}
           <button
             onClick={handleToggleSound}
-            className="px-2 py-1 text-zinc-600 hover:text-zinc-400 font-mono text-[9px] tracking-widest uppercase transition bg-zinc-950/20 border border-zinc-900/50 rounded-md focus:outline-none"
+            className="px-2.5 py-1 text-[8px] tracking-[0.2em] uppercase transition bg-zinc-950/40 border border-zinc-900/80 rounded-full text-zinc-400 hover:text-zinc-200 hover:border-zinc-800 focus:outline-none cursor-pointer"
             aria-label={soundEnabled ? 'Mute sound' : 'Unmute sound'}
           >
-            {soundEnabled ? 'Sound: On' : 'Sound: Off'}
+            {soundEnabled ? '🔊 ON' : '🔇 OFF'}
           </button>
         </div>
       )}
@@ -241,10 +243,14 @@ export default function App() {
       <div className="relative z-10 w-full min-h-[100dvh] flex flex-col justify-between overflow-hidden">
         {/* Error Alert Display */}
         {errorMsg && (
-          <div className="absolute top-16 left-6 right-6 z-50 flex justify-center pointer-events-none">
-            <div className="px-4 py-2 bg-zinc-950 border border-zinc-900 rounded-xl text-[10px] font-mono text-zinc-500 tracking-widest uppercase">
+          <div className="absolute top-20 left-6 right-6 z-50 flex justify-center pointer-events-none">
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="px-4 py-2 bg-red-950/40 border border-red-900/50 rounded-full text-[9px] font-mono text-red-400 tracking-widest uppercase backdrop-blur-md"
+            >
               {errorMsg}
-            </div>
+            </motion.div>
           </div>
         )}
 
