@@ -98,9 +98,9 @@ export const MissionControl: React.FC = () => {
 
   if (checkingAuth) {
     return (
-      <div className="min-h-screen bg-zinc-955 flex flex-col items-center justify-center text-zinc-500 font-mono text-xs gap-3">
-        <Loader2 className="w-5 h-5 animate-spin text-purple-500" />
-        <span>AUTHENTICATING SECURE CORES...</span>
+      <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center text-zinc-550 font-mono text-xs gap-3">
+        <Loader2 className="w-4 h-4 animate-spin text-zinc-550" />
+        <span>Authenticating admin session...</span>
       </div>
     );
   }
@@ -110,14 +110,14 @@ export const MissionControl: React.FC = () => {
     return (
       <div className="min-h-screen bg-zinc-955 flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="text-center font-mono text-[10px] tracking-[0.3em] text-zinc-600 mb-2">
+          <div className="text-center font-mono text-[9px] tracking-[0.25em] text-zinc-500 mb-2">
             WEEKEND MISSION
           </div>
-          <h2 className="text-center text-2xl font-extrabold text-white tracking-tight">
+          <h2 className="text-center text-xl font-bold text-white tracking-tight">
             Sign in to Mission Control
           </h2>
           {!isSupabaseConfigured() && import.meta.env.DEV && (
-            <div className="mt-2 mx-auto max-w-sm px-4 py-2 bg-yellow-950/30 border border-yellow-800/40 rounded-lg text-center text-[10px] text-yellow-550 font-mono">
+            <div className="mt-2 mx-auto max-w-sm px-4 py-2 bg-yellow-950/20 border border-yellow-900/30 rounded-lg text-center text-[10px] text-yellow-550 font-mono">
               [ Development Simulation Mode ]<br />
               Log in with admin@weekendmission.co / adminpassword
             </div>
@@ -125,10 +125,10 @@ export const MissionControl: React.FC = () => {
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
-          <div className="bg-zinc-900 border border-zinc-800 py-8 px-6 sm:px-10 rounded-2xl shadow-xl space-y-6">
+          <div className="bg-zinc-900 border border-zinc-800/80 py-8 px-6 sm:px-10 rounded-xl shadow-lg space-y-6">
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label htmlFor="email" className="block text-xs font-semibold text-zinc-400 font-mono uppercase tracking-wider mb-2">
+                <label htmlFor="email" className="block text-[10px] font-bold text-zinc-400 font-mono uppercase tracking-wider mb-2">
                   Admin Email Address
                 </label>
                 <input
@@ -138,13 +138,13 @@ export const MissionControl: React.FC = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-955 border border-zinc-800 rounded-lg text-white placeholder-zinc-700 text-sm focus:outline-none focus:border-purple-600 transition"
+                  className="w-full px-3 py-2 bg-zinc-950 border border-zinc-805 rounded-lg text-white placeholder-zinc-700 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-700 focus:border-zinc-600 transition"
                   placeholder="admin@weekendmission.co"
                 />
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-xs font-semibold text-zinc-400 font-mono uppercase tracking-wider mb-2">
+                <label htmlFor="password" className="block text-[10px] font-bold text-zinc-400 font-mono uppercase tracking-wider mb-2">
                   Password
                 </label>
                 <input
@@ -154,24 +154,24 @@ export const MissionControl: React.FC = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-955 border border-zinc-800 rounded-lg text-white placeholder-zinc-700 text-sm focus:outline-none focus:border-purple-600 transition"
+                  className="w-full px-3 py-2 bg-zinc-950 border border-zinc-805 rounded-lg text-white placeholder-zinc-700 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-700 focus:border-zinc-600 transition"
                   placeholder="••••••••"
                 />
               </div>
 
               {loginError && (
-                <div className="p-3 bg-red-950/30 border border-red-900/40 rounded-lg text-xs font-semibold text-red-400 font-mono tracking-wide leading-relaxed">
-                  ⚠️ {loginError}
+                <div className="p-3 bg-red-950/20 border border-red-900/30 rounded-lg text-xs font-semibold text-red-405 leading-normal font-sans">
+                  {loginError}
                 </div>
               )}
 
               <button
                 type="submit"
                 disabled={loginLoading}
-                className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-850 text-white rounded-lg text-xs font-mono font-bold tracking-widest uppercase transition flex justify-center items-center gap-2 cursor-pointer shadow-lg shadow-purple-900/10"
+                className="w-full py-2 bg-zinc-100 hover:bg-zinc-200 disabled:bg-zinc-800 text-zinc-950 disabled:text-zinc-550 rounded-lg text-xs font-semibold tracking-wide transition flex justify-center items-center gap-2 cursor-pointer font-sans shadow-md"
               >
                 {loginLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                SIGN IN
+                Sign In
               </button>
             </form>
           </div>
@@ -196,7 +196,7 @@ const MissionControlWorkspace: React.FC<WorkspaceProps> = ({ handleLogout }) => 
   const admin = useAdmin();
 
   return (
-    <div className="min-h-screen bg-zinc-955 flex flex-col font-sans text-zinc-100">
+    <div className="min-h-screen bg-zinc-950 flex flex-col font-sans text-zinc-100">
       {/* Top Operations Header HUD */}
       <Header 
         isWeekend={admin.weekendStatus.isWeekend}
@@ -216,11 +216,11 @@ const MissionControlWorkspace: React.FC<WorkspaceProps> = ({ handleLogout }) => 
         />
 
         {/* Content View Switcher */}
-        <main className="flex-1 bg-zinc-955 overflow-y-auto p-8 relative flex flex-col justify-start">
+        <main className="flex-1 bg-zinc-950 overflow-y-auto p-8 relative flex flex-col justify-start">
           {admin.loading ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-955 text-zinc-550 font-mono text-xs gap-3">
-              <Loader2 className="w-6 h-6 animate-spin text-purple-600" />
-              <span>SYNCING COMMAND CENTER DATA...</span>
+              <Loader2 className="w-4 h-4 animate-spin text-zinc-500" />
+              <span>Syncing Command Center data...</span>
             </div>
           ) : (
             <Routes>
