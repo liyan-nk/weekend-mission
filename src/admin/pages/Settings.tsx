@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface SettingsProps {
   currentOverride: 'automatic' | 'force-open' | 'force-closed';
@@ -31,7 +32,12 @@ export const Settings: React.FC<SettingsProps> = ({
   };
 
   return (
-    <div className="space-y-8 max-w-3xl w-full select-none font-sans text-zinc-900 p-2">
+    <motion.div
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.18, ease: 'easeOut' }}
+      className="space-y-8 max-w-3xl w-full select-none font-sans text-zinc-900 p-2"
+    >
       {/* Title */}
       <div>
         <h2 className="text-3xl font-black tracking-tight text-zinc-900 leading-none">Settings</h2>
@@ -51,7 +57,7 @@ export const Settings: React.FC<SettingsProps> = ({
           <button
             onClick={() => onOverrideChange('automatic')}
             disabled={loadingOverride}
-            className={`p-4 border rounded-lg flex flex-col justify-between text-left transition-all cursor-pointer disabled:opacity-50 ${
+            className={`p-4 border rounded-lg flex flex-col justify-between text-left transition-all cursor-pointer disabled:opacity-50 active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_rgba(24,24,27,1)] ${
               currentOverride === 'automatic'
                 ? 'bg-sky-50 border-2 border-zinc-900 text-zinc-900 shadow-[2px_2px_0px_0px_rgba(24,24,27,1)]'
                 : 'bg-white border border-zinc-350 text-zinc-400 hover:bg-zinc-50 hover:border-zinc-500'
@@ -66,7 +72,7 @@ export const Settings: React.FC<SettingsProps> = ({
           <button
             onClick={() => onOverrideChange('force-open')}
             disabled={loadingOverride}
-            className={`p-4 border rounded-lg flex flex-col justify-between text-left transition-all cursor-pointer disabled:opacity-50 ${
+            className={`p-4 border rounded-lg flex flex-col justify-between text-left transition-all cursor-pointer disabled:opacity-50 active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_rgba(24,24,27,1)] ${
               currentOverride === 'force-open'
                 ? 'bg-emerald-50 border-2 border-zinc-900 text-zinc-900 shadow-[2px_2px_0px_0px_rgba(24,24,27,1)]'
                 : 'bg-white border border-zinc-350 text-zinc-400 hover:bg-zinc-50 hover:border-zinc-500'
@@ -81,7 +87,7 @@ export const Settings: React.FC<SettingsProps> = ({
           <button
             onClick={() => onOverrideChange('force-closed')}
             disabled={loadingOverride}
-            className={`p-4 border rounded-lg flex flex-col justify-between text-left transition-all cursor-pointer disabled:opacity-50 ${
+            className={`p-4 border rounded-lg flex flex-col justify-between text-left transition-all cursor-pointer disabled:opacity-50 active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_rgba(24,24,27,1)] ${
               currentOverride === 'force-closed'
                 ? 'bg-rose-50 border-2 border-zinc-900 text-zinc-900 shadow-[2px_2px_0px_0px_rgba(24,24,27,1)]'
                 : 'bg-white border border-zinc-350 text-zinc-400 hover:bg-zinc-50 hover:border-zinc-500'
@@ -95,7 +101,7 @@ export const Settings: React.FC<SettingsProps> = ({
         </div>
 
         {loadingOverride && (
-          <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-400 uppercase tracking-widest font-bold">
+          <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-405 uppercase tracking-widest font-bold">
             <Loader2 className="w-3.5 h-3.5 animate-spin text-zinc-900" />
             <span>Syncing database override state...</span>
           </div>
@@ -133,6 +139,6 @@ export const Settings: React.FC<SettingsProps> = ({
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
