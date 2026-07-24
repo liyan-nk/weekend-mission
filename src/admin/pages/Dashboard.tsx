@@ -23,11 +23,11 @@ export const Dashboard: React.FC<DashboardViewProps> = ({
   isWeekend
 }) => {
   return (
-    <div className="space-y-8 max-w-6xl w-full select-none font-sans">
+    <div className="space-y-8 max-w-6xl w-full select-none font-sans text-zinc-100">
       {/* View Header */}
       <div>
-        <h2 className="text-xl font-bold text-white tracking-wide">Operational Overview</h2>
-        <p className="text-xs text-zinc-400">Real-time status summaries for weekend event {weekendKey}.</p>
+        <h2 className="text-lg font-bold text-white tracking-tight">Overview</h2>
+        <p className="text-xs text-zinc-500 font-medium">Real-time status summaries for weekend event {weekendKey}.</p>
       </div>
 
       {/* Numerical Metrics Cards Grid */}
@@ -36,7 +36,7 @@ export const Dashboard: React.FC<DashboardViewProps> = ({
           label="Weekend Status" 
           value={isWeekend ? 'Live' : 'Standby'}
           indicator={
-            <span className={`w-2.5 h-2.5 rounded-full ${isWeekend ? 'bg-emerald-500 animate-pulse' : 'bg-zinc-700'}`}></span>
+            <span className={`w-1.5 h-1.5 rounded-full ${isWeekend ? 'bg-emerald-500 animate-pulse' : 'bg-zinc-650'}`}></span>
           }
         />
         <StatsCard label="Total Spins" value={stats.assignedCount} />
@@ -50,40 +50,40 @@ export const Dashboard: React.FC<DashboardViewProps> = ({
         
         {/* Needs Attention Column */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="flex items-center gap-2 border-b border-zinc-805 pb-2">
-            <ShieldAlert className="w-4 h-4 text-purple-400" />
-            <h3 className="text-sm font-bold text-white tracking-wide uppercase">Needs Attention</h3>
+          <div className="flex items-center gap-2 border-b border-zinc-900 pb-2.5">
+            <ShieldAlert className="w-4 h-4 text-zinc-550" />
+            <h3 className="text-xs font-bold text-zinc-350 tracking-wide uppercase">Needs Attention</h3>
           </div>
 
           <div className="space-y-2.5 max-h-[50vh] overflow-y-auto pr-1">
             {needsAttention.length === 0 ? (
-              <div className="bg-zinc-900/50 border border-zinc-850 p-6 rounded-2xl text-center text-xs text-zinc-500 font-medium">
+              <div className="bg-zinc-900/10 border border-zinc-800/40 p-6 rounded-xl text-center text-xs text-zinc-550 font-medium">
                 No alerts detected. All systems operating normally!
               </div>
             ) : (
               needsAttention.map((item, idx) => (
                 <div 
                   key={idx} 
-                  className={`p-3.5 border rounded-xl flex gap-3 items-start ${
-                    item.type === 'DUPLICATE_NAME' || item.type === 'OVERRIDE_ENABLED'
-                      ? 'bg-yellow-950/25 border-yellow-900/30 text-yellow-300'
-                      : item.type === 'ZERO_COMPLETIONS'
-                      ? 'bg-red-950/25 border-red-900/30 text-red-300'
-                      : 'bg-zinc-900 border-zinc-800 text-zinc-300'
+                  className={`p-3 border rounded-lg flex gap-3 items-start text-xs ${
+                    item.type === 'ZERO_COMPLETIONS'
+                      ? 'bg-rose-950/20 border-rose-900/30 text-rose-350'
+                      : item.type === 'DUPLICATE_NAME' || item.type === 'OVERRIDE_ENABLED'
+                      ? 'bg-amber-950/20 border-amber-900/30 text-amber-350'
+                      : 'bg-zinc-900/40 border border-zinc-800/60 text-zinc-300'
                   }`}
                 >
-                  <div className="mt-0.5 shrink-0">
+                  <div className="mt-0.5 shrink-0 select-none">
                     {item.type === 'ZERO_COMPLETIONS' ? (
-                      <AlertTriangle className="w-4 h-4 text-red-400" />
+                      <AlertTriangle className="w-3.5 h-3.5 text-rose-450" />
                     ) : item.type === 'DUPLICATE_NAME' || item.type === 'OVERRIDE_ENABLED' ? (
-                      <AlertTriangle className="w-4 h-4 text-yellow-400" />
+                      <AlertTriangle className="w-3.5 h-3.5 text-amber-450" />
                     ) : (
-                      <Info className="w-4 h-4 text-purple-400" />
+                      <Info className="w-3.5 h-3.5 text-zinc-500" />
                     )}
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold leading-tight">{item.title}</h4>
-                    <p className="text-[10px] text-zinc-500 font-mono mt-1 font-semibold">{item.subtitle}</p>
+                    <h4 className="text-xs font-bold leading-snug">{item.title}</h4>
+                    <p className="text-[9.5px] text-zinc-550 font-mono mt-0.5 font-semibold">{item.subtitle}</p>
                   </div>
                 </div>
               ))
@@ -91,7 +91,7 @@ export const Dashboard: React.FC<DashboardViewProps> = ({
           </div>
         </div>
 
-        {/* Activity feed wrapper */}
+        {/* Activity feed column */}
         <div className="lg:col-span-7">
           <ActivityFeed entries={entries} />
         </div>
@@ -99,26 +99,26 @@ export const Dashboard: React.FC<DashboardViewProps> = ({
       </div>
 
       {/* Community Insights Grid */}
-      <div className="border-t border-zinc-800 pt-8 space-y-4">
+      <div className="border-t border-zinc-900 pt-8 space-y-4">
         <div>
-          <h3 className="text-sm font-bold text-white tracking-wide uppercase">Community Insights</h3>
-          <p className="text-[11px] text-zinc-400 mt-0.5">Objective frequencies and velocity analytics.</p>
+          <h3 className="text-xs font-bold text-zinc-350 tracking-wide uppercase">Community Insights</h3>
+          <p className="text-[11px] text-zinc-500 mt-0.5">Objective frequencies and velocity analytics.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 select-none">
           {/* Most Assigned */}
-          <div className="bg-zinc-900/30 border border-zinc-800/80 p-5 rounded-2xl space-y-3">
-            <h4 className="text-xs font-mono font-bold text-zinc-400 tracking-wider uppercase">[ MOST ASSIGNED OBJECTIVES ]</h4>
+          <div className="bg-zinc-900/10 border border-zinc-800/60 p-5 rounded-xl space-y-3 shadow-sm">
+            <h4 className="text-[9.5px] font-mono font-bold text-zinc-450 tracking-wider uppercase">[ MOST ASSIGNED OBJECTIVES ]</h4>
             <ul className="space-y-2 text-xs">
               {insights.mostAssigned.length === 0 ? (
-                <li className="text-zinc-650 italic">No spins logged yet.</li>
+                <li className="text-zinc-650 italic font-semibold">No spins logged yet.</li>
               ) : (
                 insights.mostAssigned.map((item, idx) => (
-                  <li key={item.code} className="flex justify-between items-center py-0.5">
-                    <span className="truncate max-w-[70%] font-semibold text-white">
+                  <li key={item.code} className="flex justify-between items-center py-0.5 font-medium border-b border-zinc-900/40 pb-1 last:border-0 last:pb-0">
+                    <span className="truncate max-w-[70%] text-zinc-300">
                       {idx + 1}. {item.code} — {item.title}
                     </span>
-                    <span className="font-mono text-zinc-500 font-bold shrink-0">{item.count} spins</span>
+                    <span className="font-mono text-zinc-550 text-[10px] shrink-0">{item.count} spins</span>
                   </li>
                 ))
               )}
@@ -126,18 +126,18 @@ export const Dashboard: React.FC<DashboardViewProps> = ({
           </div>
 
           {/* Least Assigned */}
-          <div className="bg-zinc-900/30 border border-zinc-800/80 p-5 rounded-2xl space-y-3">
-            <h4 className="text-xs font-mono font-bold text-zinc-400 tracking-wider uppercase">[ LEAST ASSIGNED OBJECTIVES ]</h4>
+          <div className="bg-zinc-900/10 border border-zinc-800/60 p-5 rounded-xl space-y-3 shadow-sm">
+            <h4 className="text-[9.5px] font-mono font-bold text-zinc-450 tracking-wider uppercase">[ LEAST ASSIGNED OBJECTIVES ]</h4>
             <ul className="space-y-2 text-xs">
               {insights.leastAssigned.length === 0 ? (
-                <li className="text-zinc-650 italic">No spins logged yet.</li>
+                <li className="text-zinc-650 italic font-semibold">No spins logged yet.</li>
               ) : (
                 insights.leastAssigned.map((item, idx) => (
-                  <li key={item.code} className="flex justify-between items-center py-0.5">
-                    <span className="truncate max-w-[70%] font-semibold text-white">
+                  <li key={item.code} className="flex justify-between items-center py-0.5 font-medium border-b border-zinc-900/40 pb-1 last:border-0 last:pb-0">
+                    <span className="truncate max-w-[70%] text-zinc-300">
                       {idx + 1}. {item.code} — {item.title}
                     </span>
-                    <span className="font-mono text-zinc-500 font-bold shrink-0">{item.count} spins</span>
+                    <span className="font-mono text-zinc-550 text-[10px] shrink-0">{item.count} spins</span>
                   </li>
                 ))
               )}
@@ -145,16 +145,16 @@ export const Dashboard: React.FC<DashboardViewProps> = ({
           </div>
 
           {/* Velocity Metrics */}
-          <div className="bg-zinc-900/30 border border-zinc-800/80 p-5 rounded-2xl flex flex-col justify-between">
-            <h4 className="text-xs font-mono font-bold text-zinc-400 tracking-wider uppercase mb-3">[ VELOCITY METRICS ]</h4>
-            <div className="flex-1 flex flex-col justify-center space-y-3">
+          <div className="bg-zinc-900/10 border border-zinc-800/60 p-5 rounded-xl flex flex-col justify-between shadow-sm">
+            <h4 className="text-[9.5px] font-mono font-bold text-zinc-450 tracking-wider uppercase mb-3">[ VELOCITY METRICS ]</h4>
+            <div className="flex-1 flex flex-col justify-center space-y-2.5">
               <div>
-                <span className="text-[10px] font-mono text-zinc-500 font-bold block uppercase tracking-wide">Avg Completion Time</span>
-                <span className="text-2xl font-black text-white mt-1">
+                <span className="text-[9px] font-mono text-zinc-550 font-bold block uppercase tracking-wide">Avg Completion Time</span>
+                <span className="text-xl font-extrabold text-zinc-200 mt-1 block">
                   {insights.averageTime > 0 ? `${insights.averageTime} mins` : 'N/A'}
                 </span>
               </div>
-              <p className="text-[10px] text-zinc-500 leading-normal font-sans">
+              <p className="text-[9.5px] text-zinc-500 leading-relaxed font-medium">
                 Time elapsed from initial spin acceptance to completed proof description logs upload.
               </p>
             </div>
