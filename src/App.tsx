@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useWeekendStatus } from './hooks/useWeekendStatus';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { MissionControl } from './components/MissionControl';
+import { MissionControl } from './admin/MissionControl';
 import { getEntryForWeekend, assignWeekendMission, completeWeekendMission } from './lib/db';
 import type { WeekendEntry, Mission } from './lib/db';
 import { AvailabilityGuard } from './components/AvailabilityGuard';
