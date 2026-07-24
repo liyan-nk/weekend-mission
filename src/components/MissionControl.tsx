@@ -10,7 +10,7 @@ import {
   type WeekendEntry,
   type Mission
 } from '../lib/db';
-import { useWeekendStatus, getWeekendKey } from '../hooks/useWeekendStatus';
+import { useWeekendStatus } from '../hooks/useWeekendStatus';
 import { 
   LayoutDashboard, 
   Users, 
@@ -21,9 +21,7 @@ import {
   LogOut, 
   RefreshCw, 
   Search, 
-  Filter, 
   Loader2, 
-  CheckCircle2, 
   Clock, 
   ChevronRight, 
   X,
@@ -39,7 +37,6 @@ export const MissionControl: React.FC = () => {
   const [loginLoading, setLoginLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   // 1. Authentication State Sync
   useEffect(() => {
@@ -213,7 +210,6 @@ const MissionControlWorkspace: React.FC<WorkspaceProps> = ({ handleLogout }) => 
   const [localDevForce, setLocalDevForce] = useState<boolean>(false);
 
   const weekendStatus = useWeekendStatus();
-  const navigate = useNavigate();
   const location = useLocation();
 
   // Load Initial Admin Data
@@ -505,7 +501,6 @@ const MissionControlWorkspace: React.FC<WorkspaceProps> = ({ handleLogout }) => 
                   localDevForce={localDevForce}
                   setLocalDevForce={setLocalDevForce}
                   reloadAllData={() => loadData(true)}
-                  weekendStatus={weekendStatus}
                 />
               } />
             </Routes>
@@ -1072,7 +1067,6 @@ interface SettingsViewProps {
   localDevForce: boolean;
   setLocalDevForce: (v: boolean) => void;
   reloadAllData: () => void;
-  weekendStatus: any;
 }
 
 const SettingsView: React.FC<SettingsViewProps> = ({
@@ -1080,8 +1074,7 @@ const SettingsView: React.FC<SettingsViewProps> = ({
   setCurrentOverride,
   localDevForce,
   setLocalDevForce,
-  reloadAllData,
-  weekendStatus
+  reloadAllData
 }) => {
   const [loadingOverride, setLoadingOverride] = useState<boolean>(false);
 
