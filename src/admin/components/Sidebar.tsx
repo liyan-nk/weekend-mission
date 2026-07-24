@@ -8,15 +8,15 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isSupabase, weekendKey }) => {
-  const activeClass = "flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold bg-zinc-800 text-zinc-100 shadow-sm border border-zinc-700/50 transition";
-  const inactiveClass = "flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-400 hover:bg-zinc-900/60 hover:text-zinc-250 border border-transparent transition";
+  const activeClass = "flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-bold bg-white border border-zinc-900 text-zinc-900 shadow-[1.5px_1.5px_0px_0px_rgba(24,24,27,1)] transition-all";
+  const inactiveClass = "flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-zinc-500 hover:bg-zinc-200/50 hover:text-zinc-900 border border-transparent transition-all";
 
   return (
-    <aside className="w-60 bg-zinc-900 border-r border-zinc-800/80 flex flex-col justify-between shrink-0 p-4 select-none font-sans">
+    <aside className="w-60 bg-[#f5f3ee] border-r border-zinc-900/60 flex flex-col justify-between shrink-0 p-5 select-none font-sans">
       <div className="space-y-6">
-        {/* Navigation Category 1 */}
+        {/* Category 1 */}
         <div className="space-y-2">
-          <div className="px-3 text-[9px] font-mono font-bold tracking-widest text-zinc-550 uppercase">
+          <div className="px-3 text-[9px] font-mono font-bold tracking-widest text-zinc-400 uppercase">
             Command Center
           </div>
           <nav className="space-y-1">
@@ -31,9 +31,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSupabase, weekendKey }) => {
           </nav>
         </div>
 
-        {/* Navigation Category 2 */}
+        {/* Category 2 */}
         <div className="space-y-2">
-          <div className="px-3 text-[9px] font-mono font-bold tracking-widest text-zinc-550 uppercase">
+          <div className="px-3 text-[9px] font-mono font-bold tracking-widest text-zinc-400 uppercase">
             Operations
           </div>
           <nav className="space-y-1">
@@ -55,9 +55,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSupabase, weekendKey }) => {
           </nav>
         </div>
 
-        {/* Navigation Category 3 */}
+        {/* Category 3 */}
         <div className="space-y-2">
-          <div className="px-3 text-[9px] font-mono font-bold tracking-widest text-zinc-550 uppercase">
+          <div className="px-3 text-[9px] font-mono font-bold tracking-widest text-zinc-400 uppercase">
             Configuration
           </div>
           <nav className="space-y-1">
@@ -73,20 +73,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSupabase, weekendKey }) => {
       </div>
 
       {/* Connection Info */}
-      <div className="bg-zinc-950/60 border border-zinc-800/80 p-3.5 rounded-xl text-[9px] font-mono text-zinc-500 space-y-1.5 shadow-sm">
+      <div className="bg-white border border-zinc-900 p-3.5 rounded-lg text-[9px] font-mono text-zinc-500 space-y-1.5 shadow-[2px_2px_0px_0px_rgba(24,24,27,1)] select-none">
         <div className="flex justify-between items-center">
           <span>DATABASE</span>
-          <span className={`font-bold ${isSupabase ? 'text-emerald-500' : 'text-amber-500'}`}>
+          <span className={`font-bold ${isSupabase ? 'text-emerald-700' : 'text-amber-700'}`}>
             {isSupabase ? 'SUPABASE' : 'MOCK'}
           </span>
         </div>
         <div className="flex justify-between items-center">
           <span>SERVER</span>
-          <span className="font-bold text-emerald-500">CONNECTED</span>
+          <span className="font-bold text-emerald-700">CONNECTED</span>
         </div>
         <div className="flex justify-between items-center">
           <span>WEEKEND</span>
-          <span className="font-bold text-zinc-400">{weekendKey}</span>
+          <span className="font-bold text-zinc-700">{weekendKey}</span>
         </div>
       </div>
     </aside>

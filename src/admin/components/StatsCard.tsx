@@ -8,18 +8,19 @@ interface StatsCardProps {
 
 export const StatsCard: React.FC<StatsCardProps> = ({ label, value, indicator }) => {
   return (
-    <div className="bg-zinc-900/30 border border-zinc-800/80 p-5 rounded-xl flex flex-col justify-between select-none shadow-sm">
-      <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-wider block">
+    <div className="bg-white border border-zinc-900 p-6 rounded-xl flex flex-col justify-between shadow-[3px_3px_0px_0px_rgba(24,24,27,1)] select-none">
+      {/* Number (Hero) */}
+      <div className="order-1 flex items-baseline gap-2">
+        {indicator}
+        <span className="text-3xl lg:text-4xl font-black text-zinc-900 tracking-tight leading-none">
+          {value}
+        </span>
+      </div>
+
+      {/* Label (Secondary) */}
+      <span className="order-2 text-[9px] font-mono font-bold uppercase tracking-widest text-zinc-450 mt-3 block">
         {label}
       </span>
-      {indicator ? (
-        <div className="mt-3 flex items-center gap-2">
-          {indicator}
-          <span className="text-lg font-bold text-zinc-100 uppercase leading-none">{value}</span>
-        </div>
-      ) : (
-        <span className="text-2xl font-black text-zinc-100 mt-2 block leading-none font-sans tracking-tight">{value}</span>
-      )}
     </div>
   );
 };
