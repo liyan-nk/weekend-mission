@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useWeekendStatus } from './hooks/useWeekendStatus';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { MissionControl } from './components/MissionControl';
 import { getEntryForWeekend, assignWeekendMission, completeWeekendMission } from './lib/db';
 import type { WeekendEntry, Mission } from './lib/db';
 import { AvailabilityGuard } from './components/AvailabilityGuard';
@@ -24,7 +26,7 @@ type FlowState =
   | 'SUBMITTING'
   | 'MISSION_COMPLETED';
 
-export default function App() {
+function PublicApp() {
   const weekendStatus = useWeekendStatus();
   const [flowState, setFlowState] = useState<FlowState>('INITIAL_LOADING');
   const [deviceId, setDeviceId] = useState<string>('');
@@ -370,5 +372,16 @@ export default function App() {
         )}
       </div>
     </AvailabilityGuard>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/admin/*" element={<MissionControl />} />
+        <Route path="/*" element={<PublicApp />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
