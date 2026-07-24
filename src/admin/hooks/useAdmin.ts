@@ -16,6 +16,12 @@ export interface AttentionItem {
   subtitle: string;
 }
 
+export interface ToastMessage {
+  id: string;
+  message: string;
+  type: 'success' | 'info' | 'warning';
+}
+
 export function useAdmin() {
   const [entries, setEntries] = useState<WeekendEntry[]>([]);
   const [missions, setMissions] = useState<Mission[]>([]);
@@ -23,8 +29,18 @@ export function useAdmin() {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [currentOverride, setCurrentOverride] = useState<'automatic' | 'force-open' | 'force-closed'>('automatic');
   const [localDevForce, setLocalDevForce] = useState<boolean>(false);
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   const weekendStatus = useWeekendStatus();
+
+  // Toast Notification handler
+  const showToast = useCallback((message: string, type: 'success' | 'info' | 'warning' = 'success') => {
+    const id = Math.random().toString(36).substring(2, 9);
+    setToasts((prev) => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 3000);
+  }, []);
 
   // Load Admin Data from DB
   const loadData = useCallback(async (silent = false) => {
@@ -42,11 +58,12 @@ export function useAdmin() {
       setLocalDevForce(localStorage.getItem('WM_DEBUG_FORCE_WEEKEND') === 'true');
     } catch (e) {
       console.error('Failed to load admin stats:', e);
+      showToast('Connection error: could not sync latest logs', 'warning');
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
-  }, []);
+  }, [showToast]);
 
   useEffect(() => {
     loadData();
@@ -80,7 +97,6 @@ export function useAdmin() {
   const missionAnalytics = useMemo(() => {
     const analyticsMap: { [code: string]: { assigned: number; completed: number } } = {};
     
-    // Aggregate counts across all history
     entries.forEach((e) => {
       if (e.mission) {
         if (!analyticsMap[e.mission.code]) {
@@ -109,12 +125,10 @@ export function useAdmin() {
       };
     });
 
-    // filter only missions with at least 1 spin for ranked lists
     const spunList = countsList.filter(item => item.count > 0);
     const mostAssigned = [...spunList].sort((a, b) => b.count - a.count).slice(0, 5);
     const leastAssigned = [...spunList].sort((a, b) => a.count - b.count).slice(0, 5);
 
-    // Calculate Average Completion Time
     let totalMs = 0;
     let completedWithTime = 0;
     entries.forEach((e) => {
@@ -143,7 +157,6 @@ export function useAdmin() {
     const list: AttentionItem[] = [];
     const currentWeekendEntries = entries.filter(e => e.weekend_key === weekendStatus.weekendKey);
 
-    // 1. Members who are incomplete
     const incompleteMembers = currentWeekendEntries.filter(e => e.status === 'Assigned');
     incompleteMembers.forEach((u) => {
       list.push({
@@ -153,7 +166,6 @@ export function useAdmin() {
       });
     });
 
-    // 2. Override enabled warnings
     if (currentOverride !== 'automatic') {
       list.push({
         type: 'OVERRIDE_ENABLED',
@@ -162,7 +174,6 @@ export function useAdmin() {
       });
     }
 
-    // 3. Zero completions warning
     if (currentWeekendEntries.length > 0 && stats.completedCount === 0) {
       list.push({
         type: 'ZERO_COMPLETIONS',
@@ -171,7 +182,6 @@ export function useAdmin() {
       });
     }
 
-    // 4. Inactive library counts
     const disabledCount = missions.filter(m => !m.active).length;
     if (disabledCount > 0) {
       list.push({
@@ -181,7 +191,6 @@ export function useAdmin() {
       });
     }
 
-    // 5. Duplicate display names
     const names = currentWeekendEntries.map(e => e.display_name.trim().toLowerCase());
     const duplicates = names.filter((name, idx) => names.indexOf(name) !== idx);
     const uniqueDupes = Array.from(new Set(duplicates));
@@ -200,11 +209,12 @@ export function useAdmin() {
   const toggleMissionActive = async (missionId: number, currentActive: boolean) => {
     try {
       await toggleMissionActiveAdmin(missionId, !currentActive);
-      // Silent reload just library to keep UI responsive
       const allMissions = await getAllMissionsForAdmin();
       setMissions(allMissions);
+      showToast(`Mission active status successfully ${!currentActive ? 'enabled' : 'disabled'}`, 'success');
     } catch (e) {
       console.error('Failed to toggle mission active:', e);
+      showToast('Failed to update mission status', 'warning');
     }
   };
 
@@ -212,8 +222,10 @@ export function useAdmin() {
     try {
       await setWeekendOverrideAdmin(val);
       setCurrentOverride(val);
+      showToast(`Global weekend override updated to ${val.toUpperCase()}`, 'success');
     } catch (e) {
       console.error('Failed to change weekend override:', e);
+      showToast('Failed to save override settings', 'warning');
     }
   };
 
@@ -221,11 +233,16 @@ export function useAdmin() {
     if (checked) {
       localStorage.setItem('WM_DEBUG_FORCE_WEEKEND', 'true');
       setLocalDevForce(true);
+      showToast('Local weekend time simulation enabled', 'info');
     } else {
       localStorage.removeItem('WM_DEBUG_FORCE_WEEKEND');
       setLocalDevForce(false);
+      showToast('Local weekend time simulation disabled', 'info');
     }
-    window.location.reload();
+    // Delay reload slightly to let toast fade/register
+    setTimeout(() => {
+      window.location.reload();
+    }, 800);
   };
 
   return {
@@ -240,9 +257,11 @@ export function useAdmin() {
     insights,
     needsAttentionList,
     missionAnalytics,
+    toasts,
     loadData,
     toggleMissionActive,
     handleOverrideChange,
-    handleLocalForceToggle
+    handleLocalForceToggle,
+    showToast
   };
 }
