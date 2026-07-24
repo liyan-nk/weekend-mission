@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { useAdmin } from './hooks/useAdmin';
 import { Sidebar } from './components/Sidebar';
@@ -217,48 +218,69 @@ const MissionControlWorkspace: React.FC<WorkspaceProps> = ({ handleLogout }) => 
 
         {/* Content View Switcher */}
         <main className="flex-1 bg-[#fbfaf8] overflow-y-auto p-8 relative flex flex-col justify-start">
-          {admin.loading ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#fbfaf8] text-zinc-500 font-mono text-xs gap-3">
-              <Loader2 className="w-4 h-4 animate-spin text-zinc-500" />
-              <span>Syncing Command Center data...</span>
-            </div>
-          ) : (
-            <Routes>
-              <Route path="/" element={
-                <Dashboard 
-                  stats={admin.stats}
-                  entries={admin.entries}
-                  needsAttention={admin.needsAttentionList}
-                  insights={admin.insights}
-                  weekendKey={admin.weekendStatus.weekendKey}
-                  isWeekend={admin.weekendStatus.isWeekend}
-                />
-              } />
-              <Route path="/members" element={
-                <Members 
-                  entries={admin.entries} 
-                  currentWeekendKey={admin.weekendStatus.weekendKey}
-                />
-              } />
-              <Route path="/missions" element={
-                <MissionLibrary 
-                  missions={admin.missions}
-                  missionAnalytics={admin.missionAnalytics}
-                  toggleMissionActive={admin.toggleMissionActive}
-                />
-              } />
-              <Route path="/settings" element={
-                <Settings 
-                  currentOverride={admin.currentOverride}
-                  handleOverrideChange={admin.handleOverrideChange}
-                  localDevForce={admin.localDevForce}
-                  handleLocalForceToggle={admin.handleLocalForceToggle}
-                  reloadAllData={() => admin.loadData(true)}
-                />
-              } />
-            </Routes>
-          )}
+          <Routes>
+            <Route path="/" element={
+              <Dashboard 
+                stats={admin.stats}
+                entries={admin.entries}
+                needsAttention={admin.needsAttentionList}
+                insights={admin.insights}
+                weekendKey={admin.weekendStatus.weekendKey}
+                isWeekend={admin.weekendStatus.isWeekend}
+                loading={admin.loading}
+              />
+            } />
+            <Route path="/members" element={
+              <Members 
+                entries={admin.entries} 
+                currentWeekendKey={admin.weekendStatus.weekendKey}
+                loading={admin.loading}
+                showToast={admin.showToast}
+              />
+            } />
+            <Route path="/missions" element={
+              <MissionLibrary 
+                missions={admin.missions}
+                missionAnalytics={admin.missionAnalytics}
+                toggleMissionActive={admin.toggleMissionActive}
+                loading={admin.loading}
+              />
+            } />
+            <Route path="/settings" element={
+              <Settings 
+                currentOverride={admin.currentOverride}
+                handleOverrideChange={admin.handleOverrideChange}
+                localDevForce={admin.localDevForce}
+                handleLocalForceToggle={admin.handleLocalForceToggle}
+                reloadAllData={() => admin.loadData(true)}
+              />
+            } />
+          </Routes>
         </main>
+      </div>
+
+      {/* Lightweight Toast Alert Notifications Container */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2.5 pointer-events-none font-sans">
+        <AnimatePresence>
+          {admin.toasts.map((toast) => (
+            <motion.div
+              key={toast.id}
+              initial={{ opacity: 0, y: 15, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.15 }}
+              className={`px-4 py-2.5 rounded-lg border text-xs font-bold uppercase tracking-wider shadow-sm pointer-events-auto flex items-center gap-2 ${
+                toast.type === 'warning'
+                  ? 'bg-rose-50 border-rose-900 text-rose-955 shadow-rose-900/10'
+                  : toast.type === 'info'
+                  ? 'bg-sky-50 border-sky-900 text-sky-955 shadow-sky-900/10'
+                  : 'bg-emerald-50 border-emerald-905 text-emerald-805 shadow-emerald-900/10'
+              }`}
+            >
+              <span>{toast.message}</span>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );
