@@ -197,7 +197,7 @@ const MissionControlWorkspace: React.FC<WorkspaceProps> = ({ handleLogout }) => 
   const admin = useAdmin();
 
   return (
-    <div className="min-h-screen bg-[#fbfaf8] flex flex-col font-sans text-zinc-900">
+    <div className="h-screen max-h-screen bg-[#fbfaf8] flex flex-col font-sans text-zinc-900 overflow-hidden">
       {/* Top Operations Header HUD */}
       <Header 
         isWeekend={admin.weekendStatus.isWeekend}
