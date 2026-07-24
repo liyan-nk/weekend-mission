@@ -374,8 +374,8 @@ export async function getWeekendStats(weekendKey: string): Promise<WeekendStats>
   }
 
   return {
-    assignedCount: 142 + actualAssigned,
-    completedCount: 87 + actualCompleted
+    assignedCount: actualAssigned,
+    completedCount: actualCompleted
   };
 }
 
