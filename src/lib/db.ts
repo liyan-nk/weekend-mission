@@ -379,3 +379,174 @@ export async function getWeekendStats(weekendKey: string): Promise<WeekendStats>
   };
 }
 
+/**
+ * 5. Admin: Fetch all entries for members with optional joins
+ */
+export async function getAllEntriesForAdmin(): Promise<WeekendEntry[]> {
+  if (isSupabaseConfigured()) {
+    try {
+      const { data, error } = await supabase
+        .from('weekend_entries')
+        .select(`
+          id,
+          device_id,
+          display_name,
+          mission_id,
+          status,
+          weekend_key,
+          assigned_at,
+          completed_at,
+          proof_text,
+          missions (
+            id,
+            code,
+            title,
+            description,
+            active
+          )
+        `)
+        .order('assigned_at', { ascending: false });
+
+      if (error) throw error;
+      if (data) {
+        return (data as any[]).map((entryData) => ({
+          id: entryData.id,
+          device_id: entryData.device_id,
+          display_name: entryData.display_name,
+          mission_id: entryData.mission_id,
+          status: entryData.status,
+          weekend_key: entryData.weekend_key,
+          assigned_at: entryData.assigned_at,
+          completed_at: entryData.completed_at,
+          proof_text: entryData.proof_text,
+          mission: entryData.missions ? {
+            id: entryData.missions.id,
+            code: entryData.missions.code,
+            title: entryData.missions.title,
+            description: entryData.missions.description,
+            active: entryData.missions.active
+          } : undefined
+        }));
+      }
+    } catch (e) {
+      console.warn('Supabase fetch entries failed, using local fallback:', e);
+    }
+  }
+
+  // Local Storage Fallback
+  const localEntries = getLocalEntries();
+  return localEntries.map((e) => {
+    const isMockInactive = JSON.parse(localStorage.getItem('wm_mock_inactive_mission_ids') || '[]').includes(e.mission_id);
+    const mission = DEFAULT_MISSIONS.find((m) => m.id === e.mission_id);
+    return {
+      ...e,
+      mission: mission ? { ...mission, active: !isMockInactive } : undefined
+    };
+  });
+}
+
+/**
+ * 6. Admin: Fetch all missions (active and inactive)
+ */
+export async function getAllMissionsForAdmin(): Promise<Mission[]> {
+  if (isSupabaseConfigured()) {
+    try {
+      const { data, error } = await supabase
+        .from('missions')
+        .select('*')
+        .order('code', { ascending: true });
+
+      if (error) throw error;
+      if (data) return data;
+    } catch (e) {
+      console.warn('Supabase fetch missions failed, using default list:', e);
+    }
+  }
+
+  // Local Storage Fallback
+  const inactiveIds = JSON.parse(localStorage.getItem('wm_mock_inactive_mission_ids') || '[]') as number[];
+  return DEFAULT_MISSIONS.map((m) => ({
+    ...m,
+    active: !inactiveIds.includes(m.id)
+  }));
+}
+
+/**
+ * 7. Admin: Toggle active status of a mission
+ */
+export async function toggleMissionActiveAdmin(missionId: number, active: boolean): Promise<void> {
+  if (isSupabaseConfigured()) {
+    try {
+      const { error } = await supabase
+        .from('missions')
+        .update({ active })
+        .eq('id', missionId);
+
+      if (error) throw error;
+      return;
+    } catch (e) {
+      console.warn('Supabase toggle mission failed, using local storage overrides:', e);
+    }
+  }
+
+  // Local Storage Override Fallback
+  const inactiveIds = new Set<number>(JSON.parse(localStorage.getItem('wm_mock_inactive_mission_ids') || '[]'));
+  if (active) {
+    inactiveIds.delete(missionId);
+  } else {
+    inactiveIds.add(missionId);
+  }
+  localStorage.setItem('wm_mock_inactive_mission_ids', JSON.stringify(Array.from(inactiveIds)));
+}
+
+/**
+ * 8. Admin: Get global weekend override status
+ */
+export async function getWeekendOverrideAdmin(): Promise<'automatic' | 'force-open' | 'force-closed'> {
+  if (isSupabaseConfigured()) {
+    try {
+      const { data, error } = await supabase
+        .from('weekend_settings')
+        .select('value')
+        .eq('key', 'weekend_override')
+        .maybeSingle();
+
+      if (error) throw error;
+      if (data && (data.value === 'automatic' || data.value === 'force-open' || data.value === 'force-closed')) {
+        return data.value as any;
+      }
+    } catch (e) {
+      console.warn('Supabase get override failed, fallback to local settings:', e);
+    }
+  }
+
+  // Local Storage Override
+  const val = localStorage.getItem('WM_MOCK_WEEKEND_STATUS');
+  if (val === 'automatic' || val === 'force-open' || val === 'force-closed') {
+    return val;
+  }
+  return 'automatic';
+}
+
+/**
+ * 9. Admin: Set global weekend override status
+ */
+export async function setWeekendOverrideAdmin(value: 'automatic' | 'force-open' | 'force-closed'): Promise<void> {
+  if (isSupabaseConfigured()) {
+    try {
+      const { error } = await supabase
+        .from('weekend_settings')
+        .upsert({ key: 'weekend_override', value });
+
+      if (error) throw error;
+      return;
+    } catch (e) {
+      console.warn('Supabase set override failed, using local storage overrides:', e);
+    }
+  }
+
+  // Local Storage Override Fallback
+  localStorage.setItem('WM_MOCK_WEEKEND_STATUS', value);
+}
+
+

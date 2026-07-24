@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
 export interface WeekendStatus {
   isWeekend: boolean;
@@ -6,6 +7,7 @@ export interface WeekendStatus {
   countdownMs: number; // Ms until next Saturday 12:00 AM (if weekday)
   currentTime: Date;
   isSimulated: boolean;
+  overrideState: 'automatic' | 'force-open' | 'force-closed';
 }
 
 /**
@@ -41,16 +43,46 @@ export function getWeekendKey(date: Date): string {
 }
 
 /**
- * Hook to retrieve and tick the weekend status, countdown, and simulated time features.
+ * Hook to retrieve and tick the weekend status, countdown, and simulated overrides.
  */
 export function useWeekendStatus(): WeekendStatus {
-  const [status, setStatus] = useState<WeekendStatus>(() => calculateStatus());
+  const [overrideState, setOverrideState] = useState<'automatic' | 'force-open' | 'force-closed'>('automatic');
+  const [status, setStatus] = useState<WeekendStatus>(() => calculateStatus('automatic'));
 
-  function calculateStatus(): WeekendStatus {
+  // 1. Periodically fetch the override state from DB or Local Mock settings
+  useEffect(() => {
+    const fetchOverride = async () => {
+      if (isSupabaseConfigured()) {
+        try {
+          const { data } = await supabase
+            .from('weekend_settings')
+            .select('value')
+            .eq('key', 'weekend_override')
+            .maybeSingle();
+          if (data && (data.value === 'automatic' || data.value === 'force-open' || data.value === 'force-closed')) {
+            setOverrideState(data.value as any);
+          }
+        } catch (e) {
+          console.warn('Failed to load weekend override settings:', e);
+        }
+      } else {
+        const val = localStorage.getItem('WM_MOCK_WEEKEND_STATUS');
+        if (val === 'automatic' || val === 'force-open' || val === 'force-closed') {
+          setOverrideState(val as any);
+        }
+      }
+    };
+
+    fetchOverride();
+    const interval = setInterval(fetchOverride, 10000); // refresh override settings every 10s
+    return () => clearInterval(interval);
+  }, []);
+
+  function calculateStatus(currOverride: typeof overrideState): WeekendStatus {
     let now = new Date();
     let isSimulated = false;
 
-    // Developer override in local development
+    // Developer force weekend checkbox (stored locally)
     if (import.meta.env.DEV) {
       const simTimeStr = localStorage.getItem('WM_DEBUG_SIMULATED_TIME');
       if (simTimeStr) {
@@ -68,21 +100,29 @@ export function useWeekendStatus(): WeekendStatus {
           weekendKey: getWeekendKey(now),
           countdownMs: 0,
           currentTime: now,
-          isSimulated: true
+          isSimulated: true,
+          overrideState: currOverride
         };
       }
     }
 
-    const day = now.getDay(); // 0 is Sunday, 1 is Monday, ..., 6 is Saturday
-    const isWeekend = day === 6 || day === 0;
+    // Determine weekend state based on global overrides or calendar
+    let isWeekend = false;
+    if (currOverride === 'force-open') {
+      isWeekend = true;
+    } else if (currOverride === 'force-closed') {
+      isWeekend = false;
+    } else {
+      const day = now.getDay(); // 0 is Sunday, 1 is Monday, ..., 6 is Saturday
+      isWeekend = day === 6 || day === 0;
+    }
 
-    // Calculate weekend key
     const weekendKey = getWeekendKey(now);
 
-    // Calculate countdown
+    // Calculate countdown until next Saturday
     let countdownMs = 0;
     if (!isWeekend) {
-      // Find next Saturday 12:00:00 AM
+      const day = now.getDay();
       const nextSat = new Date(now);
       const daysUntilSaturday = 6 - day;
       nextSat.setDate(now.getDate() + daysUntilSaturday);
@@ -95,18 +135,19 @@ export function useWeekendStatus(): WeekendStatus {
       weekendKey,
       countdownMs,
       currentTime: now,
-      isSimulated
+      isSimulated,
+      overrideState: currOverride
     };
   }
 
+  // 2. Tick local timer every second
   useEffect(() => {
-    // Tick every second to keep the countdown live
     const interval = setInterval(() => {
-      setStatus(calculateStatus());
+      setStatus(calculateStatus(overrideState));
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [overrideState]);
 
   return status;
 }
