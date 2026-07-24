@@ -38,6 +38,15 @@ create policy "Allow public read access to active missions"
 on public.missions for select
 using (active = true);
 
+create policy "Allow authenticated admin select all missions"
+on public.missions for select
+using (auth.role() = 'authenticated');
+
+create policy "Allow authenticated admin update missions"
+on public.missions for update
+using (auth.role() = 'authenticated');
+
+
 -- Policies for weekend_entries (allow public select, insert, and update)
 create policy "Allow public select from weekend_entries"
 on public.weekend_entries for select
@@ -143,3 +152,30 @@ on conflict (id) do update set
     title = excluded.title,
     description = excluded.description,
     active = excluded.active;
+
+-- Create weekend_settings table
+create table if not exists public.weekend_settings (
+    key text primary key,
+    value text not null
+);
+
+-- Enable RLS
+alter table public.weekend_settings enable row level security;
+
+-- Policies for weekend_settings
+create policy "Allow public read access to weekend_settings"
+on public.weekend_settings for select
+using (true);
+
+create policy "Allow authenticated admin write to weekend_settings"
+on public.weekend_settings for insert
+with check (auth.role() = 'authenticated');
+
+create policy "Allow authenticated admin update to weekend_settings"
+on public.weekend_settings for update
+using (auth.role() = 'authenticated');
+
+-- Insert default overrides
+insert into public.weekend_settings (key, value)
+values ('weekend_override', 'automatic')
+on conflict (key) do nothing;
