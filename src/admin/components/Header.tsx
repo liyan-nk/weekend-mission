@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefreshCw, LogOut, Loader2 } from 'lucide-react';
+import { RefreshCw, LogOut } from 'lucide-react';
 
 interface HeaderProps {
   isWeekend: boolean;

@@ -1,8 +1,8 @@
 import React from 'react';
-import { ShieldAlert, AlertTriangle, Info, Clock, Star } from 'lucide-react';
+import { ShieldAlert, AlertTriangle, Info } from 'lucide-react';
 import { StatsCard } from '../components/StatsCard';
 import { ActivityFeed } from '../components/ActivityFeed';
-import type { WeekendEntry, Mission } from '../../lib/db';
+import type { WeekendEntry } from '../../lib/db';
 import type { AttentionItem } from '../hooks/useAdmin';
 
 interface DashboardViewProps {
